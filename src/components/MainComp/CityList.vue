@@ -5,7 +5,7 @@ import {storeToRefs} from 'pinia'
 import { useRouter } from 'vue-router'
 
 const {cityList} = storeToRefs(useWeatherStore())
-const {getCityList,deleteCity} = useWeatherStore()
+const {getCityList,deleteCity,mapCityList} = useWeatherStore()
 const router = useRouter()
 const check = ref('')
 
@@ -19,6 +19,7 @@ const handleDelete = (id) => {
 
 onMounted(() => {
     getCityList()
+    mapCityList()
 })
 const handleMouseEnter = (id) => {
     check.value = id

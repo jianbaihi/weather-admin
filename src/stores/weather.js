@@ -60,6 +60,24 @@ export const useWeatherStore = defineStore('weather', ()=>{
         const data = JSON.parse(localStorage.getItem('cityList')||[])
         cityList.value = data
     }
+   
+    
+    // 遍历城市列表，获取天气,用promise.all来并发请求
+    const mapCityList = ()=>{
+        const emptyCity = cityList.value.map(item=> item.adcode)
+        console.log(emptyCity)
+        const requestList = emptyCity.map((item)=> getWeatherByAdcode(item))
+        
+        // console.log(requestList)
+        Promise.all(requestList).then(res=>{
+            res.forEach((item,index)=>{
+                cityList.value[index].weather = item.data.lives[0].temperature
+            })
+        })
+        console.log(cityList.value)
+        
+    }
+    
     // 增加城市
     const addCity = (city)=>{
         cityList.value.push(city)
@@ -77,6 +95,7 @@ export const useWeatherStore = defineStore('weather', ()=>{
     // 控制加号按钮的显示与隐藏
     const active = ref(false)
     
+    
 
     return{
         localCity,
@@ -91,6 +110,7 @@ export const useWeatherStore = defineStore('weather', ()=>{
         getCityWeatherForecast,
         cityList,
         city,
+        mapCityList,
         getCityList,
         addCity,
         deleteCity,

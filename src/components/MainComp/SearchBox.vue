@@ -18,7 +18,7 @@ watch(
     // 前置判断，如果有res.geocodes，则说明找到了城市，把城市信息赋值给city，否则赋值为空对象
     if (res.geocodes) {
       searchCity.value = res.geocodes[0]
-      console.log(searchCity.value)
+      // console.log(searchCity.value)
       // console.log(222)
       if(res.geocodes[0].district.length>0){
         searchCity.value = res.geocodes[0]
@@ -44,7 +44,7 @@ watch(
      router.push({name:'city',params:{adcode:searchCity.value.adcode,city:city.value}})
     // console.log(active.value)
      active.value = true
-     console.log(active.value)
+    //  console.log(active.value)
   }
 </script>
 
