@@ -10,11 +10,21 @@ const searchCity = ref({})
 const { getCityByName } = useWeatherStore()
 const {active,cityList} = storeToRefs(useWeatherStore())
 const city = ref('')
+
+// 防抖函数
+function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    
+
 // 监听cityName变化
-watch(
-  cityName,
-  async (newVal) => {
-    const res = await getCityByName(newVal)
+  const handleInput = async () => {
+    const res = await getCityByName(cityName.value)
     // 前置判断，如果有res.geocodes，则说明找到了城市，把城市信息赋值给city，否则赋值为空对象
     if (res.geocodes) {
       searchCity.value = res.geocodes[0]
@@ -34,15 +44,14 @@ watch(
       searchCity.value = {}
     }
     // console.log(city.value)
-  },
-)
+  }
+
+  // 使用防抖函数包装 handleInput
+  const debouncedHandleInput = debounce(handleInput, 1000);
+
   const handleClick = ()=>{
       // 点击展开的城市列表项,跳转路由
-      // console.log(111)
-      // console.log(searchCity.value.adcode)
-      // router.push(`/weather/${searchCity.adcode}?search=${searchCity.city}`)
      router.push({name:'city',params:{adcode:searchCity.value.adcode,city:city.value}})
-    // console.log(active.value)
      active.value = true
     //  console.log(active.value)
   }
@@ -54,6 +63,7 @@ watch(
       type="text"
       placeholder="请输入城市名称"
       v-model="cityName"
+      @input="debouncedHandleInput"
       class="py-2 px-1 w-full bg-transparent border-b focus:border-weather-secondary focus:outline-none focus:shadow-md"
     />
     <ul
