@@ -60,7 +60,7 @@ watch(
       class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[62px]"
       v-show="cityName"
     >
-      <p v-show="">对不起网络似乎除了点问题 请稍后再查询</p>
+      <p style="display:none">对不起网络似乎除了点问题 请稍后再查询</p>
       <li v-if="searchCity" @click="handleClick" class="py-2 cursor-pointer">{{ city }}</li>
       <p v-else>似乎没有找到你查找的城市</p>
     </ul>
