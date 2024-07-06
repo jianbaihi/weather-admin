@@ -41,7 +41,7 @@ function debounce(func, wait) {
         city.value = res.geocodes[0].province
       }
     }else{    
-      searchCity.value = {}
+      searchCity.value = null
     }
     // console.log(city.value)
   }

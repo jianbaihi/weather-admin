@@ -1,5 +1,5 @@
 <script setup>
-import WeatherShow from '../components/MainComp/WeatherShow.vue';
+import WeatherShow from '../components/HomeMainComp/WeatherShow.vue';
 import { ref, onMounted,watch } from 'vue';
 import {useRoute} from 'vue-router'
 

@@ -1,8 +1,8 @@
 <script setup>
     import {ref,onMounted,watch} from 'vue';
-    import SearchBox from '../components/MainComp/SearchBox.vue';
-    import CityList from '../components/MainComp/CityList.vue';
-    import WeatherShow from '../components/MainComp/WeatherShow.vue';
+    import SearchBox from '../components/HomeMainComp/SearchBox.vue';
+    import CityList from '../components/HomeMainComp/CityList.vue';
+    import WeatherShow from '../components/HomeMainComp/WeatherShow.vue';
 
     import {storeToRefs} from 'pinia';
     import {useWeatherStore} from '../stores/weather.js';
