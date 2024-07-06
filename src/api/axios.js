@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
     
     (config) => {
         const {networkLoading} = storeToRefs(useNetworkStore())
-        networkLoading.value = true
+        // networkLoading.value = true
         // console.log(networkLoading.value,'请求拦截器')
         return config
     },
