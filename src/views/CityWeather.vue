@@ -7,7 +7,10 @@ import {useRoute} from 'vue-router'
 import {storeToRefs} from 'pinia';
 import {useWeatherStore} from '../stores/weather.js';
 const {getCityWeather,getCityWeatherForecast} = useWeatherStore();
-const {goalCity,goalCityWeatherForecast,cityList,active} = storeToRefs(useWeatherStore());    
+const {goalCity,goalCityWeatherForecast,cityList,active} = storeToRefs(useWeatherStore()); 
+
+import {useNetworkStore} from '../stores/network.js'
+const {networkLoading} = storeToRefs(useNetworkStore())
 
 const route = useRoute();
 
@@ -34,7 +37,9 @@ onMounted(async()=>{
 </script>
 
 <template>
-  <div class="flex flex-col text-white">
+   <div v-show="networkLoading" class="text-center text-white text-xl"><h1>正在加载天气数据...</h1></div>
+   <div v-show="!networkLoading">
+   <div class="flex flex-col text-white">
     <div class="p-2 text-center bg-weather-secondary">
       你正在预览{{goalCity.city}}的天气信息
       <span v-show="checkShow(route.params.city)">，可以通过右上角的"+"号按钮保存起来</span>
@@ -48,4 +53,5 @@ onMounted(async()=>{
     <hr class="border-white border-opacity-10 mt-6">
   </div>
   <WeatherShow></WeatherShow>
+  </div>
 </template>

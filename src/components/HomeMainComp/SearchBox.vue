@@ -2,6 +2,7 @@
 import { ref,watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useWeatherStore } from '../../stores/weather.js'
+import { useNetworkStore } from '../../stores/network.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -9,6 +10,7 @@ const cityName = ref('')
 const searchCity = ref({})
 const { getCityByName } = useWeatherStore()
 const {active,cityList} = storeToRefs(useWeatherStore())
+const {networkError} = storeToRefs(useNetworkStore())
 const city = ref('')
 
 // 防抖函数
@@ -24,6 +26,8 @@ function debounce(func, wait) {
 
 // 监听cityName变化
   const handleInput = async () => {
+    // networkError.value = true
+    // console.log(networkError.value)
     const res = await getCityByName(cityName.value)
     // 前置判断，如果有res.geocodes，则说明找到了城市，把城市信息赋值给city，否则赋值为空对象
     if (res.geocodes) {
@@ -70,7 +74,7 @@ function debounce(func, wait) {
       class="absolute bg-weather-secondary text-white w-full shadow-md py-2 px-1 top-[62px]"
       v-show="cityName"
     >
-      <p style="display:none">对不起网络似乎除了点问题 请稍后再查询</p>
+      <p v-show="networkError">对不起 网络似乎除了点问题 请稍后再查询</p>
       <li v-if="searchCity" @click="handleClick" class="py-2 cursor-pointer">{{ city }}</li>
       <p v-else>似乎没有找到你查找的城市</p>
     </ul>
